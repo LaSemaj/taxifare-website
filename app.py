@@ -44,28 +44,6 @@ df = pd.DataFrame({
 passenger_count = st.selectbox('passenger count', df['passenger count'])
 
 
-st.markdown("""# Prediciton!!!""")
-
-parameters = {
-    "pickup_datetime": dt,
-    "pickup_longitude": pickup_longitude,
-    "pickup_latitude": pickup_latitude,
-    "dropoff_longitude": dropoff_longitude,
-    "dropoff_latitude": dropoff_latitude,
-    "passenger_count": passenger_count,
-    }
-
-response = requests.get('https://taxifare.lewagon.ai/predict', params=parameters)
-response.url
-response.status_code
-
-result = response.json()
-result
-
-result['fare']
-
-st.markdown(f"## Predicted Fare is ${result['fare']}")
-
 
 '''
 ## Once we have these, let's call our API in order to retrieve a prediction
@@ -91,3 +69,30 @@ if url == 'https://taxifare.lewagon.ai/predict':
 
 ## Finally, we can display the prediction to the user
 '''
+
+
+
+st.markdown("""# Prediciton!!!""")
+
+parameters = {
+    "pickup_datetime": dt,
+    "pickup_longitude": pickup_longitude,
+    "pickup_latitude": pickup_latitude,
+    "dropoff_longitude": dropoff_longitude,
+    "dropoff_latitude": dropoff_latitude,
+    "passenger_count": passenger_count,
+    }
+
+st.markdown('### playing with code')
+
+response = requests.get('https://taxifare.lewagon.ai/predict', params=parameters)
+response.url
+response.status_code
+
+result = response.json()
+result
+
+result['fare']
+
+
+st.markdown(f"## Predicted Fare is ${result['fare']}")
