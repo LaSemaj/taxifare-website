@@ -1,7 +1,11 @@
 import streamlit as st
+import datetime
+import pandas as pd
+import requests
+
 
 '''
-# TaxiFareModel front
+# TaxiFareModel frontss
 '''
 
 st.markdown('''
@@ -21,6 +25,47 @@ Either as with the title by just creating a string (or an f-string). Or as with 
 - dropoff latitude
 - passenger count
 '''
+
+d = st.date_input("date", datetime.date(2014, 7, 6))
+t = st.time_input('time', datetime.time(7, 18))
+dt = datetime.datetime.combine(d, t)
+
+pickup_longitude = st.number_input('pickup longitude', -73.950655)
+
+pickup_latitude = st.number_input('pickup latitude', 40.783282)
+
+dropoff_longitude = st.number_input('dropoff longitude', -73.984365)
+
+dropoff_latitude = st.number_input('dropoff latitude', 40.769802)
+
+df = pd.DataFrame({
+    'passenger count': list(range(1, 9))
+})
+passenger_count = st.selectbox('passenger count', df['passenger count'])
+
+
+st.markdown("""# Prediciton!!!""")
+
+parameters = {
+    "pickup_datetime": dt,
+    "pickup_longitude": pickup_longitude,
+    "pickup_latitude": pickup_latitude,
+    "dropoff_longitude": dropoff_longitude,
+    "dropoff_latitude": dropoff_latitude,
+    "passenger_count": passenger_count,
+    }
+
+response = requests.get('https://taxifare.lewagon.ai/predict', params=parameters)
+response.url
+response.status_code
+
+result = response.json()
+result
+
+result['fare']
+
+st.markdown(f"## Predicted Fare is ${result['fare']}")
+
 
 '''
 ## Once we have these, let's call our API in order to retrieve a prediction
